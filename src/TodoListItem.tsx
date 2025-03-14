@@ -1,9 +1,13 @@
+import {Task} from "./App.tsx";
+import {Button} from "./Button.tsx";
 
 type titleType = {
     title: string
+    tasks: Task[]
+    date?: string
 }
 
-export const TodoListItem = ({title}: titleType) => {
+export const TodoListItem = ({title, tasks, date }: titleType) => {
     return (
         <div>
             <h3>{title}</h3>
@@ -11,22 +15,29 @@ export const TodoListItem = ({title}: titleType) => {
                 <input/>
                 <button>+</button>
             </div>
-            <ul>
-                <li>
-                    <input type="checkbox" checked={true}/> <span>HTML&CSS</span>
-                </li>
-                <li>
-                    <input type="checkbox" checked={true}/> <span>JS</span>
-                </li>
-                <li>
-                    <input type="checkbox" checked={false}/> <span>React</span>
-                </li>
-            </ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                {tasks.length === 0 ? (
+                    <p>Tasks is empty</p>
+                ) : (
+                    <ul>
+                        {tasks.map(task => {
+                            return (
+                                <li key={task.id}>
+                                    <input type='checkbox' checked={task.isDone}/>
+                                    <span>{task.title}</span>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                )}
             </div>
+
+            <div>
+                <Button title={'All'}/>
+                <Button title={'Active'}/>
+                <Button title={'Completed'}/>
+            </div>
+            <div>{date}</div>
         </div>
     )
 }
