@@ -2,6 +2,8 @@ import './App.css'
 import {TodoListItem} from "./TodoListItem.tsx";
 import {useState} from "react";
 
+export type FilterValues = 'all' | 'active' | 'completed';
+
 export type Task = {
     id: number
     title: string
@@ -19,7 +21,6 @@ export const App = () => {
     {id: 6, title: 'TypeScript', isDone: false}
 ])
 
-
 const deleteTask = (taskId: number) => {
     const filteredTasks = tasks.filter(task => {
         return task.id !== taskId
@@ -27,11 +28,24 @@ const deleteTask = (taskId: number) => {
     setTasks(filteredTasks);
 }
 
+const [filter, setFilter] = useState<FilterValues>('all')
+const changeFilter = (filter: FilterValues) => {
+      setFilter(filter)
+}
+
+let filteredTasks = tasks
+if (filter === 'active') {
+  filteredTasks = tasks.filter(task => !task.isDone)
+}
+  if (filter === 'completed') {
+    filteredTasks = tasks.filter(task => task.isDone)
+  }
 return (
     <div className="app">
         <TodoListItem title='What to learn'
-                      tasks={tasks}
+                      tasks={filteredTasks}
                       deleteTask={deleteTask}
+                      changeFilter={changeFilter}
                       date='14.03.2025'/>
     </div>
 )

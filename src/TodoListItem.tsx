@@ -1,4 +1,4 @@
-import {Task} from "./App.tsx";
+import {FilterValues, Task} from "./App.tsx";
 import {Button} from "./Button.tsx";
 
 type titleType = {
@@ -6,9 +6,10 @@ type titleType = {
     tasks: Task[]
     date?: string
     deleteTask: (taskId: number) => void
+    changeFilter: (filter: FilterValues) => void
 }
 
-export const TodoListItem = ({title, tasks, date, deleteTask }: titleType) => {
+export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter }: titleType) => {
     return (
         <div>
             <h3>{title}</h3>
@@ -35,9 +36,9 @@ export const TodoListItem = ({title, tasks, date, deleteTask }: titleType) => {
             </div>
 
             <div>
-                <Button title={'All'}/>
-                <Button title={'Active'}/>
-                <Button title={'Completed'}/>
+                <Button title={'All'} onClick={() => changeFilter('all')}/>
+                <Button title={'Active'} onClick={() => changeFilter('active')}/>
+                <Button title={'Completed'} onClick={() => changeFilter('completed')}/>
             </div>
             <div>{date}</div>
         </div>
