@@ -5,9 +5,10 @@ type titleType = {
     title: string
     tasks: Task[]
     date?: string
+    deleteTask: (taskId: number) => void
 }
 
-export const TodoListItem = ({title, tasks, date }: titleType) => {
+export const TodoListItem = ({title, tasks, date, deleteTask }: titleType) => {
     return (
         <div>
             <h3>{title}</h3>
@@ -25,6 +26,7 @@ export const TodoListItem = ({title, tasks, date }: titleType) => {
                                 <li key={task.id}>
                                     <input type='checkbox' checked={task.isDone}/>
                                     <span>{task.title}</span>
+                                    <Button title={'x'} onClick={() => deleteTask(task.id)}/>
                                 </li>
                             )
                         })}
