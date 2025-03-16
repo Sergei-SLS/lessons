@@ -1,6 +1,6 @@
 import {FilterValues, Task} from "./App.tsx";
 import {Button} from "./Button.tsx";
-import {useState} from "react";
+import {KeyboardEvent, ChangeEvent, useState} from "react";
 
 type titleType = {
     title: string
@@ -19,11 +19,23 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
         setTaskTitle('')
     }
 
+    const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setTaskTitle(event.currentTarget.value)
+    }
+
+    const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            createTaskHandler()
+        }
+    }
+
     return (
         <div>
             <h3>{title}</h3>
             <div>
-                <input value={taskTitle} onChange={event => setTaskTitle(event.currentTarget.value)}/>
+                <input value={taskTitle}
+                       onChange={changeTaskTitleHandler}
+                       onKeyDown={createTaskOnEnterHandler}/>
                 <Button title={'+'} onClick={createTaskHandler}/>
             </div>
             <div>
@@ -32,11 +44,14 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
                 ) : (
                     <ul>
                         {tasks.map(task => {
+                            const deleteTaskHandler = () => {
+                                deleteTask(task.id)
+                            }
                             return (
                                 <li key={task.id}>
                                     <input type='checkbox' checked={task.isDone}/>
                                     <span>{task.title}</span>
-                                    <Button title={'x'} onClick={() => deleteTask(task.id)}/>
+                                    <Button title={'x'} onClick={deleteTaskHandler}/>
                                 </li>
                             )
                         })}
