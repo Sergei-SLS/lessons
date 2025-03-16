@@ -1,5 +1,6 @@
 import {FilterValues, Task} from "./App.tsx";
 import {Button} from "./Button.tsx";
+import {useState} from "react";
 
 type titleType = {
     title: string
@@ -7,16 +8,23 @@ type titleType = {
     date?: string
     deleteTask: (taskId: string) => void
     changeFilter: (filter: FilterValues) => void
-    createTask: () => void
+    createTask: (title: string) => void
 }
 
-export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask }: titleType) => {
+export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask}: titleType) => {
+    const [taskTitle, setTaskTitle] = useState('')
+
+    const createTaskHandler = () => {
+        createTask(taskTitle)
+        setTaskTitle('')
+    }
+
     return (
         <div>
             <h3>{title}</h3>
             <div>
-                <input/>
-                <Button title={'+'} onClick={createTask}/>
+                <input value={taskTitle} onChange={event => setTaskTitle(event.currentTarget.value)}/>
+                <Button title={'+'} onClick={createTaskHandler}/>
             </div>
             <div>
                 {tasks.length === 0 ? (
