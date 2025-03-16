@@ -7,15 +7,16 @@ type titleType = {
     date?: string
     deleteTask: (taskId: string) => void
     changeFilter: (filter: FilterValues) => void
+    createTask: () => void
 }
 
-export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter }: titleType) => {
+export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask }: titleType) => {
     return (
         <div>
             <h3>{title}</h3>
             <div>
                 <input/>
-                <button>+</button>
+                <Button title={'+'} onClick={createTask}/>
             </div>
             <div>
                 {tasks.length === 0 ? (
