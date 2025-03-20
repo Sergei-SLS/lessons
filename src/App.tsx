@@ -47,12 +47,19 @@ export const App = () => {
     if (filter === 'completed') {
         filteredTasks = tasks.filter(task => task.isDone)
     }
+
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        const newState = tasks.map(task => task.id == taskId ? { ...task, isDone } : task)
+        setTasks(newState)
+    }
+
     return (
         <div className="app">
             <TodoListItem title='What to learn'
                           tasks={filteredTasks}
                           deleteTask={deleteTask}
                           changeFilter={changeFilter}
+                          changeTaskStatus={changeTaskStatus}
                           createTask={createTask}
                           date='14.03.2025'/>
         </div>

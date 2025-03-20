@@ -9,9 +9,10 @@ type titleType = {
     deleteTask: (taskId: string) => void
     changeFilter: (filter: FilterValues) => void
     createTask: (title: string) => void
+    changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
-export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask}: titleType) => {
+export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus}: titleType) => {
     const [taskTitle, setTaskTitle] = useState('')
 
     const createTaskHandler = () => {
@@ -47,9 +48,17 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
                             const deleteTaskHandler = () => {
                                 deleteTask(task.id)
                             }
+
+                            const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                                const newStatusValue = event.currentTarget.checked
+                                changeTaskStatus(task.id, newStatusValue)
+                            }
+
                             return (
                                 <li key={task.id}>
-                                    <input type='checkbox' checked={task.isDone}/>
+                                    <input type='checkbox'
+                                           checked={task.isDone}
+                                           onChange={changeTaskStatusHandler}/>
                                     <span>{task.title}</span>
                                     <Button title={'x'} onClick={deleteTaskHandler}/>
                                 </li>
