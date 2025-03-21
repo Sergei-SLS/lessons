@@ -10,9 +10,10 @@ type titleType = {
     changeFilter: (filter: FilterValues) => void
     createTask: (title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
+    filter: FilterValues
 }
 
-export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus}: titleType) => {
+export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus, filter}: titleType) => {
     const [taskTitle, setTaskTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
@@ -64,7 +65,7 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
                             }
 
                             return (
-                                <li key={task.id}>
+                                <li key={task.id} className={task.isDone ? 'is-done' : ''}>
                                     <input type='checkbox'
                                            checked={task.isDone}
                                            onChange={changeTaskStatusHandler}/>
@@ -78,9 +79,18 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
             </div>
 
             <div>
-                <Button title={'All'} onClick={() => changeFilter('all')}/>
-                <Button title={'Active'} onClick={() => changeFilter('active')}/>
-                <Button title={'Completed'} onClick={() => changeFilter('completed')}/>
+                <Button className={filter === 'all' ? 'active-filter' : ''}
+                        title={'All'}
+                        onClick={() => changeFilter('all')}
+                />
+                <Button className={filter === 'active' ? 'active-filter' : ''}
+                        title={'Active'}
+                        onClick={() => changeFilter('active')}
+                />
+                <Button className={filter === 'completed' ? 'active-filter' : ''}
+                        title={'Completed'}
+                        onClick={() => changeFilter('completed')}
+                />
             </div>
             <div>{date}</div>
         </div>

@@ -61,6 +61,7 @@ export const App = () => {
                           changeFilter={changeFilter}
                           changeTaskStatus={changeTaskStatus}
                           createTask={createTask}
+                          filter={filter}
                           date='14.03.2025'/>
         </div>
     )
