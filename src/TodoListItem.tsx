@@ -16,8 +16,11 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
     const [taskTitle, setTaskTitle] = useState('')
 
     const createTaskHandler = () => {
-        createTask(taskTitle)
-        setTaskTitle('')
+        const trimmedTitle = taskTitle.trim()
+        if (trimmedTitle !== '') {
+            createTask(trimmedTitle)
+            setTaskTitle('')
+        }
     }
 
     const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +49,7 @@ export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, crea
                     <ul>
                         {tasks.map(task => {
                             const deleteTaskHandler = () => {
-                                deleteTask(task.id)
+                                    deleteTask(task.id)
                             }
 
                             const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
