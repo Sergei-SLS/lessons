@@ -23,16 +23,6 @@ export const App = () => {
         {id: v1(), title: 'What to do', filter: 'all'},
     ])
 
-    // const [tasks, setTasks] = useState<Task[]>
-    // ([
-    //     {id: v1(), title: 'HTML&CSS', isDone: true},
-    //     {id: v1(), title: 'JavaScript', isDone: true},
-    //     {id: v1(), title: 'React', isDone: false},
-    //     {id: v1(), title: 'Redux', isDone: false},
-    //     {id: v1(), title: 'NextJS', isDone: false},
-    //     {id: v1(), title: 'TypeScript', isDone: false}
-    // ])
-
     const createTask = (title: string) => {
         const newTask = {id: v1(), title, isDone: false}
         const newTasks = [newTask, ...tasks]
@@ -46,17 +36,8 @@ export const App = () => {
         setTasks(filteredTasks);
     }
 
-    const [filter, setFilter] = useState<FilterValues>('all')
-    const changeFilter = (filter: FilterValues) => {
-        setFilter(filter)
-    }
-
-    let filteredTasks = tasks
-    if (filter === 'active') {
-        filteredTasks = tasks.filter(task => !task.isDone)
-    }
-    if (filter === 'completed') {
-        filteredTasks = tasks.filter(task => task.isDone)
+    const changeFilter = (todolistId: string, filter: FilterValues) => {
+        setTodolists(todolists.map(todolist => todolist.id === todolistId ? { ...todolist, filter} : todolist))
     }
 
     const changeTaskStatus = (taskId: string, isDone: boolean) => {
@@ -67,6 +48,13 @@ export const App = () => {
     return (
         <div className="app">
             {todolists.map(mapToDo => {
+                let filteredTasks = tasks
+                if (todolist.filter === 'active') {
+                    filteredTasks = tasks.filter(task => !task.isDone)
+                }
+                if (todolist.filter === 'completed') {
+                    filteredTasks = tasks.filter(task => task.isDone)
+                }
                 return (
                     <TodoListItem key={mapToDo.id}
                                   todolist={mapToDo}
@@ -75,7 +63,6 @@ export const App = () => {
                                   changeFilter={changeFilter}
                                   changeTaskStatus={changeTaskStatus}
                                   createTask={createTask}
-                                  filter={filter}
                                   date='14.03.2025'/>
                 )
             })}
