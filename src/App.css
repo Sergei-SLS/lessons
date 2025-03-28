@@ -22,3 +22,8 @@
 .is-done {
   text-decoration: line-through red;
 }
+
+.container {
+  display: flex;
+  align-items: center;
+}

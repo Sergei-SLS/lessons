@@ -10,9 +10,10 @@ type titleType = {
     changeFilter: (todolistId: string, filter: FilterValues) => void
     createTask: (todolistId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
+    deleteTodolist: (todolistId: string) => void
 }
 
-export const TodoListItem = ({todolist: {id, title, filter}, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus}: titleType) => {
+export const TodoListItem = ({todolist: {id, title, filter}, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus, deleteTodolist}: titleType) => {
     const [taskTitle, setTaskTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
@@ -40,9 +41,17 @@ export const TodoListItem = ({todolist: {id, title, filter}, tasks, date, delete
         changeFilter(id, filter)
     }
 
+    const deleteTodolistHandler = () => {
+        deleteTodolist(id)
+    }
+
     return (
         <div>
-            <h3>{title}</h3>
+            <div className={'container'}>
+                <h3>{title}</h3>
+                <Button title={'x'} onClick={deleteTodolistHandler} />
+            </div>
+
             <div>
                 <input className={error ? 'error' : ''}
                        value={taskTitle}
