@@ -6,20 +6,20 @@ type titleType = {
     todolist: Todolist
     tasks: Task[]
     date?: string
-    deleteTask: (taskId: string) => void
+    deleteTask: (todolist: string, taskId: string) => void
     changeFilter: (todolistId: string, filter: FilterValues) => void
-    createTask: (title: string) => void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    createTask: (todolistId: string, title: string) => void
+    changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
 }
 
-export const TodoListItem = ({todolist: {id, title, filter}, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus, filter}: titleType) => {
+export const TodoListItem = ({todolist: {id, title, filter}, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus}: titleType) => {
     const [taskTitle, setTaskTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 
     const createTaskHandler = () => {
         const trimmedTitle = taskTitle.trim()
         if (trimmedTitle !== '') {
-            createTask(trimmedTitle)
+            createTask(id,trimmedTitle)
             setTaskTitle('')
         } else {
             setError('Title is required')
@@ -58,12 +58,12 @@ export const TodoListItem = ({todolist: {id, title, filter}, tasks, date, delete
                     <ul>
                         {tasks.map(task => {
                             const deleteTaskHandler = () => {
-                                    deleteTask(task.id)
+                                    deleteTask(id, task.id)
                             }
 
                             const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
                                 const newStatusValue = event.currentTarget.checked
-                                changeTaskStatus(task.id, newStatusValue)
+                                changeTaskStatus(id, task.id, newStatusValue)
                             }
 
                             return (
