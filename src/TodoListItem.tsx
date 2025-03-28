@@ -1,19 +1,18 @@
-import {FilterValues, Task} from "./App.tsx";
+import {FilterValues, Task, Todolist} from "./App.tsx";
 import {Button} from "./Button.tsx";
 import {KeyboardEvent, ChangeEvent, useState} from "react";
 
 type titleType = {
-    title: string
+    todolist: Todolist
     tasks: Task[]
     date?: string
     deleteTask: (taskId: string) => void
     changeFilter: (filter: FilterValues) => void
     createTask: (title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
-    filter: FilterValues
 }
 
-export const TodoListItem = ({title, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus, filter}: titleType) => {
+export const TodoListItem = ({todolist: {title, filter}, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus, filter}: titleType) => {
     const [taskTitle, setTaskTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
 

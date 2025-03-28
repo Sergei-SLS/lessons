@@ -11,16 +11,27 @@ export type Task = {
     isDone: boolean
 }
 
+export type Todolist = {
+    id: string
+    title: string
+    filter: FilterValues
+}
+
 export const App = () => {
-    const [tasks, setTasks] = useState<Task[]>
-    ([
-        {id: v1(), title: 'HTML&CSS', isDone: true},
-        {id: v1(), title: 'JavaScript', isDone: true},
-        {id: v1(), title: 'React', isDone: false},
-        {id: v1(), title: 'Redux', isDone: false},
-        {id: v1(), title: 'NextJS', isDone: false},
-        {id: v1(), title: 'TypeScript', isDone: false}
+    const [todolists, setTodolists] = useState<Task[]>([
+        {id: v1(), title: 'What to learn', filter: 'all'},
+        {id: v1(), title: 'What to do', filter: 'all'},
     ])
+
+    // const [tasks, setTasks] = useState<Task[]>
+    // ([
+    //     {id: v1(), title: 'HTML&CSS', isDone: true},
+    //     {id: v1(), title: 'JavaScript', isDone: true},
+    //     {id: v1(), title: 'React', isDone: false},
+    //     {id: v1(), title: 'Redux', isDone: false},
+    //     {id: v1(), title: 'NextJS', isDone: false},
+    //     {id: v1(), title: 'TypeScript', isDone: false}
+    // ])
 
     const createTask = (title: string) => {
         const newTask = {id: v1(), title, isDone: false}
@@ -55,14 +66,19 @@ export const App = () => {
 
     return (
         <div className="app">
-            <TodoListItem title='What to learn'
-                          tasks={filteredTasks}
-                          deleteTask={deleteTask}
-                          changeFilter={changeFilter}
-                          changeTaskStatus={changeTaskStatus}
-                          createTask={createTask}
-                          filter={filter}
-                          date='14.03.2025'/>
+            {todolists.map(mapToDo => {
+                return (
+                    <TodoListItem key={mapToDo.id}
+                                  todolist={mapToDo}
+                                  tasks={filteredTasks}
+                                  deleteTask={deleteTask}
+                                  changeFilter={changeFilter}
+                                  changeTaskStatus={changeTaskStatus}
+                                  createTask={createTask}
+                                  filter={filter}
+                                  date='14.03.2025'/>
+                )
+            })}
         </div>
     )
 }
