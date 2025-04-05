@@ -13,6 +13,7 @@ type titleType = {
     createTask: (todolistId: string, title: string) => void
     changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
+    changeTodolistTitle: (todolistId: string, title: string) => void
     deleteTodolist: (todolistId: string) => void
 }
 
@@ -24,9 +25,15 @@ export const TodoListItem = ({todolist: {id, title, filter},
                                  changeFilter,
                                  changeTaskTitle,
                                  changeTaskStatus,
+                                 changeTodolistTitle,
                                  deleteTodolist}: titleType) => {
+
     const changeFilterHandler = (filter: FilterValues) => {
         changeFilter(id, filter)
+    }
+
+    const changeTodolistTitleHandler = (title: string) => {
+        changeTodolistTitle(id, title)
     }
 
     const deleteTodolistHandler = () => {
@@ -40,7 +47,9 @@ export const TodoListItem = ({todolist: {id, title, filter},
     return (
         <div>
             <div className={'container'}>
-                <h3>{title}</h3>
+                <h3>
+                    <EditableSpan value={title} onChange={changeTodolistTitleHandler}/>
+                </h3>
                 <Button title={'x'} onClick={deleteTodolistHandler} />
             </div>
 
