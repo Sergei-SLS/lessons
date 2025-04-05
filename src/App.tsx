@@ -2,6 +2,7 @@ import './App.css'
 import {TodoListItem} from "./TodoListItem.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
+import {CreateItemForm} from "./CreateItemForm.tsx";
 
 export type FilterValues = 'all' | 'active' | 'completed';
 
@@ -61,6 +62,13 @@ export const App = () => {
         setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id == taskId ? {...task, isDone} : task)})
     }
 
+    const createTodolist = (title: string) => {
+        const todolistId = v1();
+        const newTodolist: Todolist = {id: todolistId, title, filter: 'all' }
+        setTodolists([newTodolist, ...todolists])
+        setTasks({ ...tasks, [todolistId]: [] })
+    }
+
     const deleteTodolist = (todolistId: string) => {
         setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
         delete tasks[todolistId]
@@ -69,6 +77,7 @@ export const App = () => {
 
     return (
         <div className="app">
+            <CreateItemForm onCreateItem={createTodolist}/>
             {todolists.map(mapToDo => {
                 const todolistTasks = tasks[mapToDo.id]
                 let filteredTasks = todolistTasks
@@ -82,6 +91,7 @@ export const App = () => {
                     <TodoListItem key={mapToDo.id}
                                   todolist={mapToDo}
                                   tasks={filteredTasks}
+                                  // createTodolist={createTodolist}
                                   deleteTodolist={deleteTodolist}
                                   deleteTask={deleteTask}
                                   changeFilter={changeFilter}
