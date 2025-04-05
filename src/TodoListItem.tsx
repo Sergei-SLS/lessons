@@ -1,6 +1,7 @@
 import {FilterValues, Task, Todolist} from "./App.tsx";
 import {Button} from "./Button.tsx";
-import {KeyboardEvent, ChangeEvent, useState} from "react";
+import { ChangeEvent } from "react";
+import {CreateItemForm} from "./CreateItemForm.tsx";
 
 type titleType = {
     todolist: Todolist
@@ -13,36 +14,24 @@ type titleType = {
     deleteTodolist: (todolistId: string) => void
 }
 
-export const TodoListItem = ({todolist: {id, title, filter}, tasks, date, deleteTask, changeFilter, createTask, changeTaskStatus, deleteTodolist}: titleType) => {
-    const [taskTitle, setTaskTitle] = useState('')
-    const [error, setError] = useState<string | null>(null)
-
-    const createTaskHandler = () => {
-        const trimmedTitle = taskTitle.trim()
-        if (trimmedTitle !== '') {
-            createTask(id,trimmedTitle)
-            setTaskTitle('')
-        } else {
-            setError('Title is required')
-        }
-    }
-
-    const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setTaskTitle(event.currentTarget.value)
-        setError(null)
-    }
-
-    const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            createTaskHandler()
-        }
-    }
+export const TodoListItem = ({todolist: {id, title, filter},
+                                 tasks,
+                                 date,
+                                 createTask,
+                                 deleteTask,
+                                 changeFilter,
+                                 changeTaskStatus,
+                                 deleteTodolist}: titleType) => {
     const changeFilterHandler = (filter: FilterValues) => {
         changeFilter(id, filter)
     }
 
     const deleteTodolistHandler = () => {
         deleteTodolist(id)
+    }
+
+    const createTaskHandler = (title: string) => {
+        createTask(id, title)
     }
 
     return (
@@ -52,14 +41,8 @@ export const TodoListItem = ({todolist: {id, title, filter}, tasks, date, delete
                 <Button title={'x'} onClick={deleteTodolistHandler} />
             </div>
 
-            <div>
-                <input className={error ? 'error' : ''}
-                       value={taskTitle}
-                       onChange={changeTaskTitleHandler}
-                       onKeyDown={createTaskOnEnterHandler}/>
-                <Button title={'+'} onClick={createTaskHandler}/>
-                {error && <div className={'error-message'}>{error}</div>}
-            </div>
+            <CreateItemForm onCreateItem={createTaskHandler} />
+
             <div>
                 {tasks.length === 0 ? (
                     <p>Tasks is empty</p>
