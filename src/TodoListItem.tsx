@@ -2,6 +2,7 @@ import {FilterValues, Task, Todolist} from "./App.tsx";
 import {Button} from "./Button.tsx";
 import { ChangeEvent } from "react";
 import {CreateItemForm} from "./CreateItemForm.tsx";
+import {EditableSpan} from "./EditableSpan.tsx";
 
 type titleType = {
     todolist: Todolist
@@ -63,7 +64,7 @@ export const TodoListItem = ({todolist: {id, title, filter},
                                     <input type='checkbox'
                                            checked={task.isDone}
                                            onChange={changeTaskStatusHandler}/>
-                                    <span>{task.title}</span>
+                                    <EditableSpan value={task.title}/>
                                     <Button title={'x'} onClick={deleteTaskHandler}/>
                                 </li>
                             )
