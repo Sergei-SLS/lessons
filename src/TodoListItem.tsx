@@ -11,6 +11,7 @@ type titleType = {
     deleteTask: (todolist: string, taskId: string) => void
     changeFilter: (todolistId: string, filter: FilterValues) => void
     createTask: (todolistId: string, title: string) => void
+    changeTaskTitle: (todolistId: string, taskId: string, title: string) => void
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void
     deleteTodolist: (todolistId: string) => void
 }
@@ -21,6 +22,7 @@ export const TodoListItem = ({todolist: {id, title, filter},
                                  createTask,
                                  deleteTask,
                                  changeFilter,
+                                 changeTaskTitle,
                                  changeTaskStatus,
                                  deleteTodolist}: titleType) => {
     const changeFilterHandler = (filter: FilterValues) => {
@@ -54,6 +56,10 @@ export const TodoListItem = ({todolist: {id, title, filter},
                                     deleteTask(id, task.id)
                             }
 
+                            const changeTaskTitleHandler = (title: string) => {
+                                changeTaskTitle(id, task.id, title)
+                            }
+
                             const changeTaskStatusHandler = (event: ChangeEvent<HTMLInputElement>) => {
                                 const newStatusValue = event.currentTarget.checked
                                 changeTaskStatus(id, task.id, newStatusValue)
@@ -64,7 +70,7 @@ export const TodoListItem = ({todolist: {id, title, filter},
                                     <input type='checkbox'
                                            checked={task.isDone}
                                            onChange={changeTaskStatusHandler}/>
-                                    <EditableSpan value={task.title}/>
+                                    <EditableSpan value={task.title} onChange={changeTaskTitleHandler}/>
                                     <Button title={'x'} onClick={deleteTaskHandler}/>
                                 </li>
                             )

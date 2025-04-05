@@ -44,18 +44,21 @@ export const App = () => {
         ]
     })
 
-
     const createTask = (todolistId: string, title: string) => {
         const newTask = {id: v1(), title, isDone: false}
-        setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]] })
+        setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
     }
 
     const deleteTask = (todolistId: string, taskId: string) => {
-        setTasks({ ...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !==taskId)} );
+        setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)});
     }
 
     const changeFilter = (todolistId: string, filter: FilterValues) => {
-        setTodolists(todolists.map(todolist => todolist.id === todolistId ? { ...todolist, filter} : todolist))
+        setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist, filter} : todolist))
+    }
+
+    const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
+        setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, title} : task)})
     }
 
     const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => {
@@ -64,9 +67,9 @@ export const App = () => {
 
     const createTodolist = (title: string) => {
         const todolistId = v1();
-        const newTodolist: Todolist = {id: todolistId, title, filter: 'all' }
+        const newTodolist: Todolist = {id: todolistId, title, filter: 'all'}
         setTodolists([newTodolist, ...todolists])
-        setTasks({ ...tasks, [todolistId]: [] })
+        setTasks({...tasks, [todolistId]: []})
     }
 
     const deleteTodolist = (todolistId: string) => {
@@ -91,8 +94,8 @@ export const App = () => {
                     <TodoListItem key={mapToDo.id}
                                   todolist={mapToDo}
                                   tasks={filteredTasks}
-                                  // createTodolist={createTodolist}
                                   deleteTodolist={deleteTodolist}
+                                  changeTaskTitle={changeTaskTitle}
                                   deleteTask={deleteTask}
                                   changeFilter={changeFilter}
                                   changeTaskStatus={changeTaskStatus}
